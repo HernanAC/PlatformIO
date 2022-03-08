@@ -4,6 +4,7 @@
 #include <Arduino.h>
 #include <ESP8266HTTPClient.h>
 #include <ESP8266WiFi.h>
+#include <WiFiClientSecure.h>
 
 class PIOTA
 {
@@ -11,13 +12,15 @@ private:
   boolean _isUpdating = false;
   boolean _isUpdated = false;
 
-  WiFiClient _wifiClient;
+  WiFiClientSecure _wifiClient;
 
   String getDownloadUrl();
   bool downloadUpdate(String url);
 
 public:
-  PIOTA(){};
+  PIOTA(){
+    _wifiClient.setInsecure();
+  };
 
   void loop();
 };

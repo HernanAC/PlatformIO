@@ -1,4 +1,5 @@
 #include "PIWiFi.h"
+#include <WiFiClientSecure.h>
 #include <ESP8266WiFi.h>
 #include <PIWiFiHandler.h>
 

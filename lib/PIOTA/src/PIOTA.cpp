@@ -2,7 +2,7 @@
 
 #define VARIANT "esp32"
 #define CURRENT_VERSION VERSION
-#define FIRWARE_URL "http://us-central1-iotdevops.cloudfunctions.net/getDownloadUrl"
+#define FIRWARE_URL "https://us-central1-iotdevops.cloudfunctions.net/getDownloadUrl"
 
 
 String PIOTA::getDownloadUrl()
