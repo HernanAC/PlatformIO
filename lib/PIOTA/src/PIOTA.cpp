@@ -2,7 +2,8 @@
 
 #define VARIANT "esp32"
 #define CURRENT_VERSION VERSION
-#define FIRWARE_URL "https://us-central1-iotdevops.cloudfunctions.net/getDownloadUrl"
+#define FIRWARE_URL "http://us-central1-iotdevops.cloudfunctions.net/getDownloadUrl"
+
 
 String PIOTA::getDownloadUrl()
 {
@@ -14,7 +15,7 @@ String PIOTA::getDownloadUrl()
   String url = FIRWARE_URL;
   url += String("?version=") + CURRENT_VERSION + String("&variant=") + VARIANT;
 
-  http.begin(url);
+  http.begin(_wifiClient, url);
 
   Serial.println("[HTTP] GET...");
 
@@ -51,7 +52,7 @@ bool PIOTA::downloadUpdate(String url)
   HTTPClient http;
   Serial.print("[HTTP] Download begin...\n");
 
-  http.begin(url);
+  http.begin(_wifiClient, url);
 
   Serial.print("[HTTP] GET...\n");
 
@@ -75,7 +76,7 @@ bool PIOTA::downloadUpdate(String url)
   if (contentLength <= 0)
   {
     Serial.println("There was no content in the response");
-    client.flush();
+    _wifiClient.flush();
     return false;
   }
 

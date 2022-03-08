@@ -1,5 +1,5 @@
 #include "PIWiFi.h"
-#include <WiFi.h>
+#include <ESP8266WiFi.h>
 #include <PIWiFiHandler.h>
 
 // WL_NO_SHIELD        = 255

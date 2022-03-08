@@ -2,9 +2,8 @@
 #define PI_OTA_H
 
 #include <Arduino.h>
-#include <HTTPClient.h>
-#include <Update.h>
-#include <WiFi.h>
+#include <ESP8266HTTPClient.h>
+#include <ESP8266WiFi.h>
 
 class PIOTA
 {
@@ -12,7 +11,7 @@ private:
   boolean _isUpdating = false;
   boolean _isUpdated = false;
 
-  WiFiClient client;
+  WiFiClient _wifiClient;
 
   String getDownloadUrl();
   bool downloadUpdate(String url);

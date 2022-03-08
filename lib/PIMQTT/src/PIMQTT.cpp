@@ -54,8 +54,8 @@ void PIMQTT::loop()
     {
       Serial.println("connected");
 
-      _mqttClient->subscribe("gym/main/curtains");
-      _mqttClient->subscribe("LED");
+      _mqttClient->subscribe("gym/main/keyboard");
+      _mqttClient->subscribe("iotdevopsKeyboard");
     }
     else
     {

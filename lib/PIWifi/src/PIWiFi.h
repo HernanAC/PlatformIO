@@ -2,6 +2,7 @@
 #define PI_WIFI_H
 #include <Arduino.h>
 #include <PIWiFiState.h>
+#include <ESP8266WiFiMulti.h>
 
 class PIWiFi
 {

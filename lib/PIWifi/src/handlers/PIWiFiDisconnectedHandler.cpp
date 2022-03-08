@@ -1,6 +1,6 @@
 
 #include <PIWiFiHandler.h>
-#include <WiFi.h>
+#include <ESP8266WiFi.h>
 
 void PIWIFI_DISCONNECTED_HANDLER(PIWiFiState *wifiState)
 {
