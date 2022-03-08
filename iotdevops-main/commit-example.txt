@@ -1,0 +1,7 @@
+# Commit the files
+git add src/main.cpp platformio.ini
+git commit -m "[feat] Add blink feature"
+# Tag this commit
+git tag -a v1.2.0 -m "Add blink feature"
+# Send to the repository with the tags
+git push -u origin main --tags
