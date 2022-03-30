@@ -67,7 +67,7 @@ void PIKeyboard::loop()
     if(!strcmp(password2, key_password)){
       Serial.println("");
       Serial.println("Contraseña correcta");
-      client->publish("gym/main/courtains","open");
+      client->publish("gym/main/curtains","open");
       client->publish("gym/main/lights","on");
       indice = 0;
     }
