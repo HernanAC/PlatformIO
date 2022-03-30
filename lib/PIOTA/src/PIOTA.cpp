@@ -1,5 +1,5 @@
 #include <PIOTA.h>
-
+#include <ESP8266httpUpdate.h>
 #define VARIANT "esp8266"
 #define CURRENT_VERSION VERSION
 #define FIRWARE_URL "https://us-central1-iotdevops.cloudfunctions.net/getDownloadUrl"
@@ -49,75 +49,27 @@ String PIOTA::getDownloadUrl()
 
 bool PIOTA::downloadUpdate(String url)
 {
-  HTTPClient http;
-  Serial.print("[HTTP] Download begin...\n");
-
-  http.begin(_wifiClient, url);
-
-  Serial.print("[HTTP] GET...\n");
-
-  int httpCode = http.GET();
-
-  if (httpCode == 0)
-  {
-    return false;
-  }
-
-  Serial.printf("[HTTP] GET... code: %d\n", httpCode);
-
-  if (httpCode != HTTP_CODE_OK)
-  {
-    return false;
-  }
-
-  int contentLength = http.getSize();
-  Serial.println("contentLength : " + String(contentLength));
-
-  if (contentLength <= 0)
-  {
-    Serial.println("There was no content in the response");
-    _wifiClient.flush();
-    return false;
-  }
-
-  bool canBegin = Update.begin(contentLength);
-
-  if (!canBegin)
-  {
-    Serial.println("Not enough space to begin OTA");
-    return false;
-  }
-
-  WiFiClient stream = http.getStream();
   Serial.println("Begin OTA. This may take 2 - 5 mins to complete. Things might be quite for a while.. Patience!");
+  t_httpUpdate_return ret = ESPhttpUpdate.update(_wifiClient, url);
 
-  size_t written = Update.writeStream(stream);
-
-  if (written == contentLength)
-  {
-    Serial.println("Written : " + String(written) + " successfully");
+  switch(ret) {
+    case HTTP_UPDATE_FAILED:
+        Serial.println("[update] Update failed.");
+        return false;
+    case HTTP_UE_TOO_LESS_SPACE:
+        Serial.println("[update] Update failed too less space.");
+        return false;
+    case HTTP_UE_SERVER_FILE_NOT_FOUND:
+        Serial.println("[update] Update failed server file not found.");
+        return false;
+    case HTTP_UPDATE_NO_UPDATES:
+        Serial.println("[update] Update no Update.");
+        return true;
+    case HTTP_UPDATE_OK:
+        Serial.println("[update] Update ok."); // may not be called since we reboot the ESP
+        return true;
   }
-  else
-  {
-    Serial.println("Written only : " + String(written) + "/" + String(contentLength) + ". Retry?");
-  }
-
-  if (!Update.end())
-  {
-    Serial.println("Error Occurred. Error #: " + String(Update.getError()));
-    return false;
-  }
-
-  Serial.println("OTA done!");
-
-  if (!Update.isFinished())
-  {
-    Serial.println("Update not finished? Something went wrong!");
-    return false;
-  }
-
-  Serial.println("Update successfully completed. Rebooting.");
-  ESP.restart();
+  
   return true;
 }
 
