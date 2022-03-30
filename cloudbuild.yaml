@@ -13,9 +13,9 @@ steps:
     args:
       - '-c'
       - |
-        gsutil mv /workspace/.pio/build/esp32/firmware.bin /workspace/.pio/build/esp32/firmware_esp32.bin
+        gsutil mv /workspace/.pio/build/esp8266/firmware.bin /workspace/.pio/build/esp32/firmware_esp8266.bin
 artifacts:
   objects:
     location: 'gs://$PROJECT_ID-firmwares/$TAG_NAME'
     paths:
-      - /workspace/.pio/build/esp32/firmware_esp32.bin
+      - /workspace/.pio/build/esp32/firmware_esp8266.bin
