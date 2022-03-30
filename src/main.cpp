@@ -1,6 +1,7 @@
 #include <PIWiFi.h>
 #include <PIMQTT.h>
 #include <PIOTA.h>
+#include <PIKeyboard.h>
 
 
 char* wifiSSID = "MARTHA CRUZ";  
@@ -12,6 +13,8 @@ char *mqttClientID = "KeyboardClient";
 PIWiFi *wiFiController;
 PIMQTT *mqttController;
 PIOTA *otaManager;
+PIKeyboard *keyboardManager;
+
 
 void callback(char *topic, byte *payload, unsigned int length)
 {
@@ -26,7 +29,12 @@ void callback(char *topic, byte *payload, unsigned int length)
 
   Serial.println(message);
 
-  // String stringTopic = String(topic);
+  String stringTopic = String(topic);
+
+  if (stringTopic == "gym/main/keyboard")
+  {
+    keyboardManager->handler(message);
+  }
 
 }
 
@@ -41,6 +49,8 @@ void setup()
   mqttController->_mqttClient->setCallback(callback);
 
   otaManager = new PIOTA();
+  keyboardManager = new PIKeyboard(500,mqttController->_mqttClient);
+
   
 }
 
@@ -49,4 +59,5 @@ void loop()
   wiFiController->loop();
   mqttController->loop();
   otaManager->loop();
+  keyboardManager->loop();
 }
